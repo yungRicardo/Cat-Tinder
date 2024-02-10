@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Cats", type: :request do
-  describe "GET /index" do
+  describe "GET /cats" do
     it "gets a list of Cats" do
-      Cat.create(name: 'Felix', age: 2, enjoy: 'Long naps on the hammock', image: 'https://unsplash.com/photos/a-close-up-of-a-cat-with-its-mouth-open-qQgOMo4vpnU')
+      Cat.create(name: 'Felix', age: 2, enjoys: 'Long naps on the couch', image: 'url_of_cat_image')
 
       get '/cats'
 
@@ -13,3 +13,4 @@ RSpec.describe "Cats", type: :request do
     end
   end
 end
+``
