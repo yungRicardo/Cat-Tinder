@@ -33,23 +33,49 @@ RSpec.describe "Cats", type: :request do
       expect(response).to have_http_status(:created)
       expect(Cat.last.name).to eq('Binx')
     end
+ 
+    context 'when the cat has invalid attributes' do
+      it 'returns status code 422' do
+        post '/cats', params: { cat: { name: '', age: '', enjoys: 'Sleep', image: '' } }
+        expect(response).to have_http_status(422)
+      end
+    end
   end
 
   describe "PATCH /cats/:id" do
     let!(:cat) { Cat.create(name: 'Mittens', age: 2, enjoys: 'Sunshine and warm spots', image: 'yet_another_cat_image_url') }
-    it "updates a cat's information" do
-      updated_params = { cat: { name: 'Mittens II' } }
-      patch "/cats/#{cat.id}", params: updated_params
-      cat.reload
 
-      expect(response).to have_http_status(:ok)
-      expect(cat.name).to eq('Mittens II')
+    context 'when the cat has invalid attributes' do
+      let(:invalid_attributes) { { name: '', age: nil, enjoys: 'Eat', image: ''} }
+
+      it "updates a cat's information" do
+        updated_params = { cat: { name: 'Mittens II' } }
+        patch "/cats/#{cat.id}", params: updated_params
+        cat.reload
+
+        expect(response).to have_http_status(:ok)
+        expect(cat.name).to eq('Mittens II')
+      end
+
+
+
+      it 'returns a status code 422' do
+        patch cat_path(cat), params: { cat: invalid_attributes }
+        expect(response).to have_http_status(422)
+      end
+    
+
+      it 'returns a validation failure message' do
+        patch cat_path(cat), params: { cat: invalid_attributes }
+        expect(response.body).to match(/can't be blank/)
+        expect(response.body).to match(/is too short/)
+      end
     end
+      
   end
 
   describe "DELETE /cats/:id" do
     let!(:cat) { Cat.create(name: 'Shadow', age: 5, enjoys: 'Stalking in the night.', image: 'shadow_cat_image_url') }
-
     it "deletes a cat" do
       expect {
         delete "/cats/#{cat.id}"
