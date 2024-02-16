@@ -6,7 +6,7 @@ import CatEdit from './pages/CatEdit';
 import CatIndex from './pages/CatIndex';
 import CatNew from './pages/CatNew';
 import CatShow from './pages/CatShow';
-import NotFound from './pages/NotFound'
+import NotFound from './pages/NotFound';
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/catedit" element={<CatEdit />} />
         <Route path="/catindex" element={<CatIndex />} />
-        <Route path="/catnew" element={<CatNew/>} />
+        <Route path="/catnew" element={<CatNew />} />
         <Route path="/catshow" element={<CatShow />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

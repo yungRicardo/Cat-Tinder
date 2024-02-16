@@ -1,6 +1,10 @@
 const Home = () => {
    return (
-      <h1>Ricky</h1>
+      <>
+      <section className="banner-section">
+         <h1>Find Your Cat a Feline Friend</h1>
+      </section>
+      </>
    );
 };
 
